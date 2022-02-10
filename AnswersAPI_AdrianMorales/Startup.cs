@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AnswersAPI_AdrianMorales.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AnswersAPI_AdrianMorales
 {
@@ -27,6 +29,14 @@ namespace AnswersAPI_AdrianMorales
         {
 
             services.AddControllers();
+
+            // Agregar la cadena de conexión para el proyecto
+            // TODO: Debemos guardar cadena por medio de usersecrets.json
+            // y no por medio de appsetting.json
+            var conn = "SERVER=.;DATABASE=AnswerDB;User Id=AnswerUser;Password=Progra6";
+
+            services.AddDbContext<AnswerDBContext>(options => options.UseSqlServer(conn));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AnswersAPI_AdrianMorales", Version = "v1" });
@@ -46,6 +56,8 @@ namespace AnswersAPI_AdrianMorales
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //TODO: revisar si hace falta alguna config para uso de JWT
 
             app.UseEndpoints(endpoints =>
             {
