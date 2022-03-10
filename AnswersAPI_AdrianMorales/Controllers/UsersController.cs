@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AnswersAPI_AdrianMorales.Models;
+using AnswersAPI_AdrianMorales.Attributes;
 
 namespace AnswersAPI_AdrianMorales.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     public class UsersController : ControllerBase
     {
         private readonly AnswerDBContext _context;
