@@ -33,7 +33,7 @@ namespace AnswersAPI_AdrianMorales
             // Agregar la cadena de conexión para el proyecto
             // TODO: Debemos guardar cadena por medio de usersecrets.json
             // y no por medio de appsetting.json
-            var conn = "SERVER=.;DATABASE=AnswerDB;User Id=AnswerUser;Password=Progra6";
+            var conn = "SERVER=.;DATABASE=AnswerDB;Trusted_Connection=True";
 
             services.AddDbContext<AnswerDBContext>(options => options.UseSqlServer(conn));
 
