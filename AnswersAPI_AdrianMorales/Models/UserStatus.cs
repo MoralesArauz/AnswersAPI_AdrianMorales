@@ -12,7 +12,7 @@ namespace AnswersAPI_AdrianMorales.Models
             Users = new HashSet<User>();
         }
 
-        public int UserStatuId { get; set; }
+        public int UserStatusId { get; set; }
         public string Status { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
