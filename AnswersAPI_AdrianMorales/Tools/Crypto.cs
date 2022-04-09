@@ -15,7 +15,7 @@ namespace AnswersAPI_AdrianMorales.Tools
         string LlavePersonalizadaApp = "Appkajhsdkjh672716762TEMP";
         string LlavePersonalizadaAPI = "APIklsjdnfjkfdf90rer83722";
 
-        public string DesEncriptarPassword(string Pass, bool UsarLlaveApp = true)
+        public string DesEncriptarPassword(string Pass, bool UsarLlaveApp = false)
         {
             string R = string.Empty;
 
@@ -46,7 +46,7 @@ namespace AnswersAPI_AdrianMorales.Tools
 
         }
 
-        public string EncriptarPassword(string Pass, bool UsarLlaveApp = true)
+        public string EncriptarPassword(string Pass, bool UsarLlaveApp = false)
         {
             string R = string.Empty;
 

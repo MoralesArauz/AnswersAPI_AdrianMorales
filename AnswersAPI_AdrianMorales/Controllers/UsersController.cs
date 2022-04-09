@@ -17,9 +17,12 @@ namespace AnswersAPI_AdrianMorales.Controllers
     {
         private readonly AnswerDBContext _context;
 
+
+        private Tools.Crypto MyCrypto { get; set; }
         public UsersController(AnswerDBContext context)
         {
             _context = context;
+            MyCrypto = new Tools.Crypto();
         }
 
         // GET: api/Users
@@ -41,6 +44,29 @@ namespace AnswersAPI_AdrianMorales.Controllers
             }
 
             return user;
+        }
+
+
+        [HttpGet("ValidateUserLogin")]
+        public async Task<ActionResult<User>> ValidateUserLogin(string pEmail,string pPassword)
+        {
+            // se valida el usuario por el email y el password encriptado a nivel de api
+            string ApiLevelEnryptedPassword = MyCrypto.EncriptarEnUnSentido(pPassword);
+
+            // TAREA: Hacer esta misma consulta pero usando LINQ
+
+            var user = await _context.Users.SingleOrDefaultAsync(e => e.UserName == pEmail && 
+                                                                 e.UserPassword == ApiLevelEnryptedPassword);
+
+            // Si no hay respuesta a la consulta se devuelve mensaje http Not Found
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+
+
         }
 
         // PUT: api/Users/5
@@ -79,6 +105,14 @@ namespace AnswersAPI_AdrianMorales.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            // El password ya viene encriptado desde la App, por un asunto de seguridad(Si alguien intercepta el request
+            // // no va a poder entender que password digitó el usuario)
+            // Además de esa encriptación, acá se volverá a encriptar con otra llave para que aunque se pueda copiar
+            // El password(A nivel del app) se pueda usar contra la base de datos.
+
+            string ApiLevelEncryptedPassword = MyCrypto.EncriptarEnUnSentido(user.UserPassword);
+
+            user.UserPassword = ApiLevelEncryptedPassword;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
