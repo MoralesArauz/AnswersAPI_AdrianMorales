@@ -55,8 +55,15 @@ namespace AnswersAPI_AdrianMorales.Controllers
 
             // TAREA: Hacer esta misma consulta pero usando LINQ
 
-            var user = await _context.Users.SingleOrDefaultAsync(e => e.UserName == pEmail && 
-                                                                 e.UserPassword == ApiLevelEnryptedPassword);
+            //var user = await _context.Users.SingleOrDefaultAsync(e => e.UserName == pEmail &&
+            //                                                     e.UserPassword == ApiLevelEnryptedPassword);
+
+            var user = await (from userDB in _context.Users
+                        where userDB.UserName == pEmail
+                        where userDB.UserPassword == ApiLevelEnryptedPassword
+                        select userDB).SingleOrDefaultAsync();
+
+            // TAREA: Fin de la Tarea
 
             // Si no hay respuesta a la consulta se devuelve mensaje http Not Found
             if (user == null)
