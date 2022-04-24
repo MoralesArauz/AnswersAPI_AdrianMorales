@@ -27,6 +27,24 @@ namespace AnswersAPI_AdrianMorales.Controllers
             return await _context.UserRoles.ToListAsync();
         }
 
+        [HttpGet("GetUserSelectableRolesList")]
+        public async Task<ActionResult<IEnumerable<UserRole>>> GetValidUserRoles()
+        {
+            //var userRole = await _context.UserRoles.ToListAsync(e => e.IsUserSelectable);
+
+            //var userRole = from role in _context.UserRoles
+            //               where role.IsUserSelectable
+            //               select role;
+
+            List<UserRole> userRole = await _context.UserRoles.Where(x => x.IsUserSelectable).ToListAsync();
+            if (userRole == null)
+            {
+                return NotFound();
+            }
+
+            return userRole;
+        }
+
         // GET: api/UserRoles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserRole>> GetUserRole(int id)
